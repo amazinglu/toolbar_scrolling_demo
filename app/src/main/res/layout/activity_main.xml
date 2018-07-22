@@ -35,7 +35,8 @@
             android:fitsSystemWindows="true"
             app:tabTextColor="@color/colorWhite"
             app:tabSelectedTextColor="@android:color/white"
-            app:tabIndicatorColor="@android:color/white"/>
+            app:tabIndicatorColor="@android:color/white"
+            app:layout_scrollFlags="scroll|enterAlways|snap"/>
 
     </android.support.design.widget.AppBarLayout>
 
