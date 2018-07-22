@@ -1,5 +1,7 @@
 package com.example.amazinglu.scrolling_behavior_appbar_demo;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -23,25 +25,28 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.main_tab_layout) TabLayout tabLayout;
-    @BindView(R.id.main_view_pager) ViewPager viewPager;
+    @BindView(R.id.main_recycler_view) RecyclerView recyclerView;
 
     private MyAdapter adapter;
 
     /**
      * implement scrolling behavior using CoordinatorLayout and AppBarLayout
      *
-     * Standard App bar scrolling with only Toolbar and the tab bar remain there
+     * App bar scrolling with Flexible space
      * details in activity_main.xml
      * https://android.jlelse.eu/scrolling-behavior-for-appbars-in-android-41aff9c5c468
      *
      * 注意：
-     * when <item name="android:windowTranslucentStatus">true</item>
-     * 向上滑之后tablayout 会和status bar重叠，加上fitSystemWindow也是没有用的
+     * toolbar 不可以设置为
+     * layout_height: wrap_content
+     * min_height: ?attr/actionBarSize
+     * 这样子的话就没有collapsing的效果了
+     * 只能设置为 layout_height: ?attr/actionBarSize
      *
-     * 唯一能实现这个功能的办法就是不能把status bar 设置成透明
+     * 然后toolbar的theme和popupTheme要在AppBarLayout中设置才有效
      * */
 
+    @SuppressLint("RestrictedApi")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +56,24 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        initViewPagerAndTab();
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+        adapter = new MyAdapter(fakeData());
+        recyclerView.setAdapter(adapter);
     }
 
-    private void initViewPagerAndTab() {
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+    private List<String> fakeData() {
+        List<String> data = new ArrayList<>();
+        for (int i = 0; i < 20; ++i) {
+            data.add("item " + i);
+        }
+        return data;
+    }
 
-        tabLayout.getTabAt(0).setText(R.string.tab0);
-        tabLayout.getTabAt(1).setText(R.string.tab1);
-        tabLayout.getTabAt(2).setText(R.string.tab2);
+    private Context getContext() {
+        return MainActivity.this;
     }
 }
