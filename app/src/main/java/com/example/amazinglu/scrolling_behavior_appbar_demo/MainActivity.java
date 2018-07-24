@@ -30,20 +30,13 @@ public class MainActivity extends AppCompatActivity {
     private MyAdapter adapter;
 
     /**
-     * implement scrolling behavior using CoordinatorLayout and AppBarLayout
+     * Creating the Flexible Space with Image Pattern
      *
-     * App bar scrolling with Flexible space
-     * details in activity_main.xml
      * https://android.jlelse.eu/scrolling-behavior-for-appbars-in-android-41aff9c5c468
      *
      * 注意：
-     * toolbar 不可以设置为
-     * layout_height: wrap_content
-     * min_height: ?attr/actionBarSize
-     * 这样子的话就没有collapsing的效果了
-     * 只能设置为 layout_height: ?attr/actionBarSize
-     *
-     * 然后toolbar的theme和popupTheme要在AppBarLayout中设置才有效
+     * 在toolbar中设置fitsSystemWindows是没有用的，在AppBarLayout中设置才行
+     * imageView要设置itsSystemWindows和height要match_parent, 然后image才可以作为status bar的background
      * */
 
     @SuppressLint("RestrictedApi")
