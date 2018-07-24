@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
      * Creating the Flexible Space with Image Pattern
      *
      * https://android.jlelse.eu/scrolling-behavior-for-appbars-in-android-41aff9c5c468
+     * https://android.jlelse.eu/creating-the-flexible-space-with-image-pattern-on-android-b5f8908b9921
      *
      * 注意：
      * 在toolbar中设置fitsSystemWindows是没有用的，在AppBarLayout中设置才行
